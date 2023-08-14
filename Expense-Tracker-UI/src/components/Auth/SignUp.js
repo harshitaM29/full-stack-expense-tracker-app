@@ -2,11 +2,16 @@ import classes from './SignUp.module.css';
 import { Form, Button, Container, ButtonGroup, Card } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import axios from 'axios';
+import {useHistory} from 'react-router-dom';
 const SignUp = () => {
     const [isLoading, setIsLoading] = useState(false);
+    const history = useHistory();
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const nameInputRef = useRef();
+    const switchAuthModeHandler = () => {
+      history.push('/')
+  };
     const signUpHandler = async(e) => {
         e.preventDefault();
         const enteredEmail = emailInputRef.current.value;
@@ -21,6 +26,7 @@ const SignUp = () => {
         try {
         const response = await axios.post('http://localhost:4000/signup',signupData);
           setIsLoading(false)
+          history.push('/');
         } catch(err) {
           setIsLoading(false);
           emailInputRef.current.value = "";
@@ -55,7 +61,7 @@ const SignUp = () => {
         {!isLoading && <Button variant="primary" type="submit">
             Create Account
       </Button> }
-      <Button  className={classes.toggle} type="button">
+      <Button  className={classes.toggle} onClick={switchAuthModeHandler} type="button">
             Login with existing account
       </Button>
       </ButtonGroup>

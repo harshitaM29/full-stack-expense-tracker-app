@@ -1,9 +1,18 @@
 import React from 'react';
-import SignUp from './components/Auth/SignUp';
+import LoginPage from './pages/LoginPage';
+import SignUpPage from './pages/SignUpPage';
+import { Switch, Route } from 'react-router-dom';
 
 function App() {
   return (
-    <SignUp />
+   <Switch>
+    <Route path='/' exact>
+      <LoginPage />
+    </Route>
+    <Route path = '/signup'>
+      <SignUpPage />
+    </Route>
+   </Switch>
   );
 }
 
