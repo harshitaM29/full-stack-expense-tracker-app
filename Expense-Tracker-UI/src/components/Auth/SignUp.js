@@ -1,19 +1,36 @@
 import classes from './SignUp.module.css';
 import { Form, Button, Container, ButtonGroup, Card } from 'react-bootstrap';
 import { useState, useRef } from 'react';
+import axios from 'axios';
 const SignUp = () => {
     const [isLoading, setIsLoading] = useState(false);
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const nameInputRef = useRef();
-    const signUpHandler = (e) => {
+    const signUpHandler = async(e) => {
         e.preventDefault();
         const enteredEmail = emailInputRef.current.value;
         const enteredPassword = passwordInputRef.current.value;
         const enteredName = nameInputRef.current.value;
-       
+        const signupData = {
+          name:enteredName,
+          email:enteredEmail,
+          password:enteredPassword
+        }
+        setIsLoading(true);
+        try {
+        const response = await axios.post('http://localhost:4000/signup',signupData);
+          setIsLoading(false)
+        } catch(err) {
+          setIsLoading(false);
+          emailInputRef.current.value = "";
+          if(err.response.data === 'SequelizeUniqueConstraintError') {
+            alert('Email id already present');
+
+          }
+
+        }
         
-        console.log(enteredEmail,enteredPassword,enteredName)
     }
     return (
         <Card className={classes.auth}>
@@ -32,7 +49,9 @@ const SignUp = () => {
         <input ref={passwordInputRef} type="password" placeholder="Password" required/>
       </Form.Group>
         <ButtonGroup  className={classes.actions} vertical>
-        {isLoading && <p>Sending Request</p>}
+        {isLoading && <Button  className={classes.toggle} type="button">
+          Sending Request
+      </Button>}
         {!isLoading && <Button variant="primary" type="submit">
             Create Account
       </Button> }
