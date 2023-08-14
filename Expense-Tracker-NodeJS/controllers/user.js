@@ -1,15 +1,16 @@
 const Users = require('../models/users');
-
+ const bcrypt = require('bcrypt');
 
 exports.postUserData = async(req,res,next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
     try {
+    const salt = await bcrypt.genSalt(10);
     const userData = await Users.create({
         name:name,
         email:email,
-        password:password
+        password: await bcrypt.hash(password, salt)
     });
    
     return res.status(201).json(userData);
@@ -29,10 +30,8 @@ exports.postLoginUserData = async(req,res,next) => {
     }})
     
     if(presentEmail) {
-        const presentPass = await Users.findOne({ where: {
-            password : password
-        }})
-        console.log("presentPass",presentPass)
+        const presentPass = await bcrypt.compare(password, presentEmail.password)
+       
         if(presentPass) {
             res.status(200).json({ email:email, password:password })
         } else {
