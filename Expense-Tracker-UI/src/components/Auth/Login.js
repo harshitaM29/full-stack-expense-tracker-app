@@ -2,7 +2,7 @@ import classes from './Login.module.css';
 import { Form, Button, ButtonGroup, Card } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import {useHistory} from 'react-router-dom';
-
+import axios from 'axios';
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
@@ -19,22 +19,19 @@ const Login = () => {
           email:enteredEmail,
           password:enteredPassword
         }
-        alert('logged in succeful');
-       // setIsLoading(true);
-        // try {
-        // const response = await axios.post('http://localhost:4000/signup',signupData);
-        //   setIsLoading(false)
-        // } catch(err) {
-        //   setIsLoading(false);
-        //   emailInputRef.current.value = "";
-        //   if(err.response.data === 'SequelizeUniqueConstraintError') {
-        //     alert('Email id already present');
+       setIsLoading(true);
+        try {
+        const response = await axios.post('http://localhost:4000/user/login',loginData);
+        setIsLoading(false);
+          if(response) {
+            alert('User logged in successfully')
+          }
+        } catch(err) {
+          setIsLoading(false);
+            alert(err.response.data);
 
-        //   }
-
-        
-        
-    }
+          }
+}
     return (
         <Card className={classes.auth}>
         <h1>Sign Up</h1>

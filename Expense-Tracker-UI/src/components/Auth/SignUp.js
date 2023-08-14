@@ -24,8 +24,8 @@ const SignUp = () => {
         }
         setIsLoading(true);
         try {
-        const response = await axios.post('http://localhost:4000/signup',signupData);
-          setIsLoading(false)
+        const response = await axios.post('http://localhost:4000/user/signup',signupData);
+          setIsLoading(false);
           history.push('/');
         } catch(err) {
           setIsLoading(false);
