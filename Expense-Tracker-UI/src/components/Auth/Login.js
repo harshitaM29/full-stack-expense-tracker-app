@@ -24,7 +24,7 @@ const Login = () => {
         const response = await axios.post('http://localhost:4000/user/login',loginData);
         setIsLoading(false);
           if(response) {
-            alert('User logged in successfully')
+            history.replace('/home');
           }
         } catch(err) {
           setIsLoading(false);
