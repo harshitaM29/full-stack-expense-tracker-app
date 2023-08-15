@@ -4,21 +4,21 @@ import { Fragment } from 'react';
 
 const ExpenseDetails = (props) => {
     return (
-        <Fragment>
-        <Container className={classes.description}>
+        <Container>
+        <div className={classes.description}>
        <h2>{props.des}</h2>
             <h2>{props.category}</h2>
             
-            <Container className={classes.price}>{props.amount}</Container>
+            <div className={classes.price}>{props.amount}</div>
        
-        </Container>
+        </div>
         <Container className={classes.action}>
             
             <Button onClick={props.onRemove}>Delete</Button>
           
             </Container> 
 
-            </Fragment> 
+            </Container> 
     )
 };
 

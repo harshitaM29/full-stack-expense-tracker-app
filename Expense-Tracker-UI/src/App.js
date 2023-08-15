@@ -15,11 +15,7 @@ function App() {
     dispatch(fetchExpenseData())
   },[dispatch]);
 
-  useEffect(() => {
-    if(expense.changed) {
-      dispatch(sendExpenseItems(expense));
-    }
-  }, [expense,dispatch])
+ 
 
 
   return (

@@ -5,7 +5,6 @@ export const fetchExpenseData = () => {
     return async(dispatch) => {
         const fetchData = async() => {
             const response = await axios.get(`http://localhost:4000/expenses`);
-            console.log(response.data)
             
             return response.data;
         }
@@ -13,8 +12,9 @@ export const fetchExpenseData = () => {
             try {
                 
              const expenseData = await fetchData();
+            
              dispatch(expenseActions.replaceExpense({
-                expense: expenseData.expense || [],
+                expense: expenseData || [],
                 
              }))
             } catch (error) {
@@ -26,11 +26,10 @@ export const fetchExpenseData = () => {
 
 export const sendExpenseItems = (expense) => {
  
-   const expenseData = expense.expense[0];
-   console.log(expenseData)
-    return async() => {
+    return async(dispatch) => {
             try {
-            const response = await axios.post(`http://localhost:4000/expenses`,expenseData)
+            const response = await axios.post(`http://localhost:4000/expenses`,expense)
+               dispatch(expenseActions.addExpenses(response.data))
             }
            catch(err) {
             console.log(err)
@@ -38,3 +37,23 @@ export const sendExpenseItems = (expense) => {
         
     }
 }
+
+export const deleteExpenseItems = (id) => {
+    return async(dispatch) => {
+        const deleteData = async() => {
+            const response = await axios.delete(`http://localhost:4000/expense-delete/${id}`);
+            
+            return response.data;
+        }
+        try {
+                
+            const expenseData = await deleteData();
+            dispatch(expenseActions.deleteExpense(expenseData.id))
+           } catch (error) {
+               console.log(error)
+           
+       };
+    
+}
+}
+

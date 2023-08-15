@@ -18,6 +18,11 @@ const expenseSlice = createSlice({
            })
           
         },
+        deleteExpense(state,action) {
+            state.changed = true;
+                state.expense = state.expense.filter(item => item.id !== action.payload)
+       
+    },
         
     }
 });

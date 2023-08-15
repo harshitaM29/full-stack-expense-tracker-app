@@ -9,4 +9,6 @@ router.get('/expenses',expenseController.getExpenseData);
 
 router.post('/expenses',expenseController.postExpenseData);
 
+router.delete('/expense-delete/:id',expenseController.deleteExpenseData);
+
 module.exports = router;
