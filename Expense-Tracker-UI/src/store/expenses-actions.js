@@ -30,7 +30,7 @@ export const sendExpenseItems = (expense) => {
  
     return async(dispatch) => {
             try {
-            const response = await axios.post(`http://localhost:4000/expenses`,{ headers: {"Authorization" : token } },expense)
+            const response = await axios.post(`http://localhost:4000/expenses`,expense, { headers: {"Authorization" : token } })
                dispatch(expenseActions.addExpenses(response.data))
             }
            catch(err) {
