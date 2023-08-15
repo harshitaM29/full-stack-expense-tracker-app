@@ -1,25 +1,19 @@
 import { expenseActions } from './expenses';
 import axios from 'axios';
 
-const token = localStorage.getItem('token');
-
-export const fetchExpenseData = () => {
+const token = localStorage.getItem('token')
+export const fetchExpenseData = (tokenId) => {
     return async(dispatch) => {
-        const fetchData = async() => {
-            const response = await axios.get(`http://localhost:4000/expenses`, { headers: {"Authorization" : token } });
-            
-            return response.data;
-        }
-
-            try {
-                
-             const expenseData = await fetchData();
-            
-             dispatch(expenseActions.replaceExpense({
-                expense: expenseData || [],
+       
+        try {
+            const response = await axios.get(`http://localhost:4000/expenses`, { headers: {"Authorization" : tokenId } });
+            dispatch(expenseActions.replaceExpense({
+                expense: response.data || [],
                 
              }))
-            } catch (error) {
+            
+        }
+    catch(error) {
                 console.log(error)
             
         };

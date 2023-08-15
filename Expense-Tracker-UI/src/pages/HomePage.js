@@ -6,6 +6,7 @@ import { sendExpenseItems } from "../store/expenses-actions";
 const HomePage = () => {
     const dispatch = useDispatch();
     const receivedExpenses = useSelector(state => state.expense.expense)
+    const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
     const addExpenseHandler = expense => {
         dispatch(sendExpenseItems(expense));
     }
@@ -13,11 +14,14 @@ const HomePage = () => {
     if(receivedExpenses !== null){
         expenses = receivedExpenses;
     }
-    console.log("received",expenses)
+    if(!isLoggedIn) {
+        expenses = [];
+    }
+    
     return (
         <Fragment>
         <NewExpense onAddExpense={addExpenseHandler} />
-        <ExpenseList items={(receivedExpenses !== null) ? receivedExpenses : ''} />
+        <ExpenseList items={(expenses !== null) ? expenses : ''} />
         </Fragment>
     )
 };

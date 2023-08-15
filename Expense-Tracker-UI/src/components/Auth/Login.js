@@ -27,8 +27,10 @@ const Login = () => {
         const response = await axios.post('http://localhost:4000/user/login',loginData);
         setIsLoading(false);
           if(response) {
+            
             dispatch(setTokenId(response.data))
             history.replace('/home');
+            //window.location.reload();
           }
         } catch(err) {
           setIsLoading(false);
