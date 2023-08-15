@@ -3,13 +3,13 @@ import LoginPage from './pages/LoginPage';
 import SignUpPage from './pages/SignUpPage';
 import { Switch, Route } from 'react-router-dom';
 import HomePage from './pages/HomePage';
-import { useSelector, useDispatch } from 'react-redux';
-import { sendExpenseItems, fetchExpenseData } from './store/expenses-actions'
+import {useDispatch } from 'react-redux';
+import {fetchExpenseData } from './store/expenses-actions'
 import { useEffect } from 'react';
 
 function App() {
   const dispatch = useDispatch();
-  const expense = useSelector(state => state.expense)
+
   
   useEffect(() => {
     dispatch(fetchExpenseData())

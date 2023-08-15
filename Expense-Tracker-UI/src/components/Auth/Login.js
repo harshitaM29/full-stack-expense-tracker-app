@@ -2,10 +2,13 @@ import classes from './Login.module.css';
 import { Form, Button, ButtonGroup, Card } from 'react-bootstrap';
 import { useState, useRef } from 'react';
 import {useHistory} from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import axios from 'axios';
+import { setTokenId } from '../../store/auth-actions';
 const Login = () => {
     const [isLoading, setIsLoading] = useState(false);
     const history = useHistory();
+    const dispatch = useDispatch();
     const emailInputRef = useRef();
     const passwordInputRef = useRef();
     const switchAuthModeHandler = () => {
@@ -24,6 +27,7 @@ const Login = () => {
         const response = await axios.post('http://localhost:4000/user/login',loginData);
         setIsLoading(false);
           if(response) {
+            dispatch(setTokenId(response.data))
             history.replace('/home');
           }
         } catch(err) {

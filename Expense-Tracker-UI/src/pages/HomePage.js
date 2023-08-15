@@ -1,6 +1,5 @@
 import NewExpense from "../components/NewExpenses/NewExpense";
 import {useDispatch, useSelector} from 'react-redux';
-import { expenseActions } from '../store/expenses';
 import { Fragment } from "react";
 import ExpenseList from "../components/Expenses/ExpenseList";
 import { sendExpenseItems } from "../store/expenses-actions";

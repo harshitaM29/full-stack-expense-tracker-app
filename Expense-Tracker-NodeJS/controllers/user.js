@@ -1,5 +1,11 @@
 const Users = require('../models/users');
  const bcrypt = require('bcrypt');
+ const jwt = require('jsonwebtoken');
+
+
+ function generateWebToken(id)  {
+    return jwt.sign({ userId: id}, 'secretkeyforexpensetracker');
+ }
 
 exports.postUserData = async(req,res,next) => {
     const name = req.body.name;
@@ -25,15 +31,15 @@ exports.postLoginUserData = async(req,res,next) => {
     const email = req.body.email;
     const password = req.body.password;
     console.log(password);
-    const presentEmail = await Users.findOne({ where: {
+    const user = await Users.findOne({ where: {
         email : email
     }})
     
-    if(presentEmail) {
-        const presentPass = await bcrypt.compare(password, presentEmail.password)
+    if(user) {
+        const presentPass = await bcrypt.compare(password, user.password)
        
         if(presentPass) {
-            res.status(200).json({ email:email, password:password })
+            res.status(200).json({ email:email, password:password, token:generateWebToken(user.id) })
         } else {
             res.status(401).json('Password Does Not Match')
         } 
