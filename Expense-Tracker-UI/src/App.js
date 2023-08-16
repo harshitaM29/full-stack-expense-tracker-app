@@ -7,6 +7,7 @@ import {useDispatch, useSelector } from 'react-redux';
 import {fetchExpenseData } from './store/expenses-actions'
 import { useEffect } from 'react';
 import Leaderboard from './components/Premium/Leaderboard';
+import { fetchPremiumLeaderboardData } from './store/premium-actions';
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -23,6 +24,19 @@ function App() {
    }
    
   },[dispatch,isLoggedIn]);
+  useEffect(() => {
+    const token = localStorage.getItem('token');
+
+   if(isLoggedIn) {
+    setTimeout(() => {
+      dispatch(fetchPremiumLeaderboardData(token))
+    },1000)
+    
+   }
+   
+  },[dispatch,isLoggedIn]);
+  
+
 
  
 

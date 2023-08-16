@@ -3,8 +3,8 @@ const Users = require('../models/users');
  const jwt = require('jsonwebtoken');
 
 
- function generateWebToken(id)  {
-    return jwt.sign({ userId: id}, 'secretkeyforexpensetracker');
+exports.generateWebToken = (id, isPremium) => {
+    return jwt.sign({ userId: id, isPremium}, 'secretkeyforexpensetracker');
  }
 
 exports.postUserData = async(req,res,next) => {
@@ -41,7 +41,7 @@ exports.postLoginUserData = async(req,res,next) => {
         const presentPass = await bcrypt.compare(password, user.password)
        
         if(presentPass) {
-            res.status(200).json({ email:email, password:password,isPremium:user.isPremium, token:generateWebToken(user.id) })
+            res.status(200).json({ email:email, password:password,isPremium:user.isPremium, token:generateWebToken(user.id, false) })
         } else {
             res.status(401).json('Password Does Not Match')
         } 

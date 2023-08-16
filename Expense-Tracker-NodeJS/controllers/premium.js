@@ -1,10 +1,21 @@
 const Expense = require('../models/expense');
 const User = require('../models/users');
-
+const sequelize = require('sequelize');
 exports.getLeaderBoardData = async(req,res,next) => {
-    const data = await Expense.findAll({ group: "userId",
-        
+    const users = await User.findAll({
+        attributes: ['id','name',  [ sequelize.fn('sum',sequelize.col('expenses.amount')) , 'amount' ]],
+        include: [
+            {
+            model:Expense,
+            attributes: []
+            }
+        ],
+        group: ['users.id'],
+        order:[['amount','DESC']]
+
     });
-    console.log(data)
-    res.status(200).json(data);
+   
+   
+    
+    res.status(200).json(users);
 }

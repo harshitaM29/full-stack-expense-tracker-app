@@ -5,9 +5,12 @@ import { createOrder } from '../../store/order-actions';
 import useRazorpay from "react-razorpay";
 import { useHistory } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
+import { fetchPremiumLeaderboardData } from '../../store/premium-actions';
 const Header = () => {
     const isPremium = localStorage.getItem('isPremium');
-  
+    const items = useSelector(state => state.premium.items);
+
+    console.log(items)
     const history = useHistory();
     const token = localStorage.getItem('token')
     const [Razorpay] = useRazorpay();
@@ -17,6 +20,12 @@ const Header = () => {
         e.preventDefault();
        
     }
+    const showLeaderboard = (e) => {
+      history.push('/leaderboard')
+      dispatch(fetchPremiumLeaderboardData(token))
+      e.preventDefault();
+     
+  }
    
     
     return (
@@ -32,11 +41,12 @@ const Header = () => {
             >
           
               <Navbar.Text><NavLink to='/home' style={{ textDecoration: 'none' }}>Home</NavLink></Navbar.Text>
-              {isPremium === 'true' ?  <Navbar.Text><NavLink to='/leaderboard' style={{ textDecoration: 'none', marginLeft:'0.5rem' }}>Leaderboard</NavLink></Navbar.Text> : '' }
+              
             </Nav>
-            
+              {isPremium === 'true' ? <Button  onClick={showLeaderboard}>Leaderboard</Button> : ''}
              {isPremium === 'true' ? 
-             <Navbar.Text>You're Premium User</Navbar.Text> 
+            
+             <Navbar.Text style={{ marginLeft:'0.5rem' }}>You're Premium User</Navbar.Text> 
              : <Button onClick={handleClick}>Buy Premium</Button>}
           </Navbar.Collapse>
         </Container>
