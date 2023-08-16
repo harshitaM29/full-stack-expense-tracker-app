@@ -2,8 +2,7 @@ const Users = require('../models/users');
  const bcrypt = require('bcrypt');
  const jwt = require('jsonwebtoken');
 
-
-exports.generateWebToken = (id, isPremium) => {
+const generateWebToken = (id, isPremium) => {
     return jwt.sign({ userId: id, isPremium}, 'secretkeyforexpensetracker');
  }
 
@@ -12,13 +11,15 @@ exports.postUserData = async(req,res,next) => {
     const email = req.body.email;
     const password = req.body.password;
     const isPremium = req.body.isPremium;
+    const totalExpenses = req.body.totalExpenses;
     try {
     const salt = await bcrypt.genSalt(10);
     const userData = await Users.create({
         name:name,
         email:email,
         password: await bcrypt.hash(password, salt),
-        isPremium:isPremium
+        isPremium:isPremium,
+        totalExpenses:totalExpenses
     });
    
     return res.status(201).json(userData);
@@ -50,3 +51,5 @@ exports.postLoginUserData = async(req,res,next) => {
     }
 
 }
+
+

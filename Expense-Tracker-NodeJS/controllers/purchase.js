@@ -1,8 +1,11 @@
 const RazorPay = require('razorpay');
 const Order = require('../models/orders');
 require('dotenv').config();
-const userController = require('./user');
+const jwt = require('jsonwebtoken');
 
+const generateWebToken = (id, isPremium) => {
+    return jwt.sign({ userId: id, isPremium}, 'secretkeyforexpensetracker');
+ }
 exports.purchaseMembership = async(req,res) => {
     try {
       
@@ -46,7 +49,7 @@ exports.updatetransactionstatus = async(req,res, next) => {
         const order = await Order.findOne({ where: {orderId: order_id} });
         await order.update({ paymentId: payment_id, status: 'SUCCESSFUL'});
         await req.user.update({ isPremium: true});
-        res.status(202).json({token: userController.generateWebToken(userId,true), message: "Transaction Completed"})
+        res.status(202).json({token:generateWebToken(userId,true),isPremium:req.user.isPremium, message: "Transaction Completed"})
         }
 
 

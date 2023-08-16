@@ -17,7 +17,7 @@ const Leaderboard = () => {
             {items.map((key) => (
 
             <LeaderboardItem key={key.id} name={key.name} id={key.id}
-            amount={key.amount}  />
+            amount={key.totalExpenses}  />
             ))} 
             </ul>
             </Card> 
