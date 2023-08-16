@@ -21,7 +21,7 @@ const SignUp = () => {
           name:enteredName,
           email:enteredEmail,
           password:enteredPassword,
-          
+          isPremium:false
         }
         setIsLoading(true);
         try {

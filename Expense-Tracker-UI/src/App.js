@@ -6,7 +6,7 @@ import HomePage from './pages/HomePage';
 import {useDispatch, useSelector } from 'react-redux';
 import {fetchExpenseData } from './store/expenses-actions'
 import { useEffect } from 'react';
-
+import Leaderboard from './components/Premium/Leaderboard';
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -37,6 +37,9 @@ function App() {
     </Route>
     <Route path = '/home' >
       <HomePage />
+    </Route>
+    <Route path = '/leaderboard'>
+      <Leaderboard />
     </Route>
    </Switch>
   );

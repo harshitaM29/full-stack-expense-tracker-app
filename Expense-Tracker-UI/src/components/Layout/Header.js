@@ -1,15 +1,24 @@
 import classes from './Header.module.css';
 import { Container, Button, Nav, NavDropdown, Navbar, Form} from 'react-bootstrap';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '../../store/order-actions';
 import useRazorpay from "react-razorpay";
+import { useHistory } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 const Header = () => {
+    const isPremium = localStorage.getItem('isPremium');
+  
+    const history = useHistory();
+    const token = localStorage.getItem('token')
     const [Razorpay] = useRazorpay();
     const dispatch = useDispatch();
     const handleClick = (e) => {
-        dispatch(createOrder(Razorpay));
+        dispatch(createOrder(Razorpay,token));
         e.preventDefault();
+       
     }
+   
+    
     return (
         <Navbar bg="dark" data-bs-theme="dark" expand="lg" className={classes.nav}>
         <Container fluid>
@@ -21,13 +30,14 @@ const Header = () => {
               style={{ maxHeight: '100px' }}
               navbarScroll
             >
-              {/* <Nav.Link href="#action1">Home</Nav.Link>
-              <Nav.Link href="#action2">Link</Nav.Link> */}
-              
+          
+              <Navbar.Text><NavLink to='/home' style={{ textDecoration: 'none' }}>Home</NavLink></Navbar.Text>
+              {isPremium === 'true' ?  <Navbar.Text><NavLink to='/leaderboard' style={{ textDecoration: 'none', marginLeft:'0.5rem' }}>Leaderboard</NavLink></Navbar.Text> : '' }
             </Nav>
             
-              <Button onClick={handleClick}>Buy Premium</Button>
-           
+             {isPremium === 'true' ? 
+             <Navbar.Text>You're Premium User</Navbar.Text> 
+             : <Button onClick={handleClick}>Buy Premium</Button>}
           </Navbar.Collapse>
         </Container>
       </Navbar>

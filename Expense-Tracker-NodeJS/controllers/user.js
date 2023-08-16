@@ -11,12 +11,14 @@ exports.postUserData = async(req,res,next) => {
     const name = req.body.name;
     const email = req.body.email;
     const password = req.body.password;
+    const isPremium = req.body.isPremium;
     try {
     const salt = await bcrypt.genSalt(10);
     const userData = await Users.create({
         name:name,
         email:email,
-        password: await bcrypt.hash(password, salt)
+        password: await bcrypt.hash(password, salt),
+        isPremium:isPremium
     });
    
     return res.status(201).json(userData);
@@ -39,7 +41,7 @@ exports.postLoginUserData = async(req,res,next) => {
         const presentPass = await bcrypt.compare(password, user.password)
        
         if(presentPass) {
-            res.status(200).json({ email:email, password:password, token:generateWebToken(user.id) })
+            res.status(200).json({ email:email, password:password,isPremium:user.isPremium, token:generateWebToken(user.id) })
         } else {
             res.status(401).json('Password Does Not Match')
         } 

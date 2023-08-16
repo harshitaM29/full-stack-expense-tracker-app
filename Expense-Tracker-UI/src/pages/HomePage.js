@@ -8,8 +8,11 @@ const HomePage = () => {
     const dispatch = useDispatch();
     const receivedExpenses = useSelector(state => state.expense.expense)
     const isLoggedIn = useSelector(state => state.auth.isLoggedIn);
+    const token = localStorage.getItem('token')
     const addExpenseHandler = expense => {
-        dispatch(sendExpenseItems(expense));
+       
+        dispatch(sendExpenseItems(expense,token));
+        
     }
     let expenses = []
     if(receivedExpenses !== null){
