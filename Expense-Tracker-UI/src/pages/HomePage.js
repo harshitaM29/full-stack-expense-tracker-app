@@ -3,6 +3,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import { Fragment } from "react";
 import ExpenseList from "../components/Expenses/ExpenseList";
 import { sendExpenseItems } from "../store/expenses-actions";
+import Header from "../components/Layout/Header";
 const HomePage = () => {
     const dispatch = useDispatch();
     const receivedExpenses = useSelector(state => state.expense.expense)
@@ -20,6 +21,7 @@ const HomePage = () => {
     
     return (
         <Fragment>
+        <Header />
         <NewExpense onAddExpense={addExpenseHandler} />
         <ExpenseList items={(expenses !== null) ? expenses : ''} />
         </Fragment>

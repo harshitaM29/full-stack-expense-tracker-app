@@ -20,7 +20,8 @@ const SignUp = () => {
         const signupData = {
           name:enteredName,
           email:enteredEmail,
-          password:enteredPassword
+          password:enteredPassword,
+          
         }
         setIsLoading(true);
         try {
