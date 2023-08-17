@@ -1,5 +1,5 @@
 const { response } = require('express');
-const Expense = require('../models/expense');
+const FilesDownloaded = require('../models/filesdownloaded');
 const AWS = require('aws-sdk');
 
 
@@ -45,8 +45,24 @@ exports.downloadReport = async(req,res,next) => {
     const userId = req.user.id;
     const filename = `Expense${userId}/${new Date()}.txt`;
     const fileURL = await uploadToS3(stringifiedExpenses,filename);
+    const filesDownloadedData = await FilesDownloaded.create({
+        fileurl:fileURL,
+        userId:userId,
+        filename:filename
+    })
     res.status(200).json({ fileURL, succues:true})
     }catch(err) {
         res.status(500).json({ fileURL:'', success:false, err:err})
+    }
+}
+
+exports.getFileDownloadedData = async(req,res,next) => {
+    const id = req.user.id;
+    try {
+            const data = await FilesDownloaded.findAll({ where: {userId : id}});
+            res.status(200).json(data);
+
+    }catch(err){
+        res.status(400).json({message: 'Something Went Wrong', err:err})
     }
 }

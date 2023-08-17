@@ -11,6 +11,7 @@ const User = require('./models/users');
 const Expense = require('./models/expense');
 const Order = require('./models/orders');
 const ForgetPassword = require('./models/forgetpassword');
+const FilesDownloaded = require('./models/filesdownloaded');
 const app = express();
 
 app.use(cors());
@@ -30,6 +31,9 @@ Order.belongsTo(User);
 
 User.hasMany(ForgetPassword);
 ForgetPassword.belongsTo(User);
+
+User.hasMany(FilesDownloaded);
+FilesDownloaded.belongsTo(User);
 
 sequelize.sync().then(res => {
     app.listen(4000);

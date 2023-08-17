@@ -1,10 +1,14 @@
 import classes from './Report.module.css';
 import Header from '../Layout/Header';
 import { Container, Table, Button } from 'react-bootstrap';
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
 import axios from 'axios';
 const Report = () => {
     const token = localStorage.getItem('token');
+    const [data,setData] = useState();
+    useEffect(() => {
+
+    })
     const downloadReport = async() => {
         try {
             const response = await axios.get('http://localhost:4000/user/download', { headers: {"Authorization" : token } })
