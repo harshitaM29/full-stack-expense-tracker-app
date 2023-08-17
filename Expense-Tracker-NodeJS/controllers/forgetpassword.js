@@ -88,7 +88,7 @@ exports.updatePassword = async(req,res,next) => {
     if(userInfo) {
         const salt = await bcrypt.genSalt(10);
         await userInfo.update({ password: await bcrypt.hash(newpassword, salt)})
-        res.status(201).json({message: 'Successfuly update the new password'})
+        res.status(201).send(`<h3>Updated the password</h3>`)
     } else {
         return res.status(404).json({ error: 'No user Exists', success: false})
     }

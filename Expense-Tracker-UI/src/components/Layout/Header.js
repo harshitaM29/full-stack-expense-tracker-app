@@ -1,5 +1,5 @@
 import classes from './Header.module.css';
-import { Container, Button, Nav, NavDropdown, Navbar, Form} from 'react-bootstrap';
+import { Container, Button, Nav, Navbar} from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 import { createOrder } from '../../store/order-actions';
 import useRazorpay from "react-razorpay";
@@ -40,8 +40,9 @@ const Header = () => {
               navbarScroll
             >
           
-              <Navbar.Text><NavLink to='/home' style={{ textDecoration: 'none' }}>Home</NavLink></Navbar.Text>
-              
+              <Navbar.Text><NavLink to='/home' style={{ textDecoration: 'none', }}>Home</NavLink></Navbar.Text>
+              {isPremium === 'true' ? <Navbar.Text><NavLink to='/report' style={{ textDecoration: 'none',  marginLeft:'0.5rem' }}>Report</NavLink></Navbar.Text>
+              : '' }
             </Nav>
               {isPremium === 'true' ? <Button  onClick={showLeaderboard}>Leaderboard</Button> : ''}
              {isPremium === 'true' ? 

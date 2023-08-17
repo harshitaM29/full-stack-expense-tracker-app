@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 import Leaderboard from './components/Premium/Leaderboard';
 import { fetchPremiumLeaderboardData } from './store/premium-actions';
 import ForgetPassword from './components/ForgetPassword/ForgetPassword';
+import Report from './components/Report/Report';
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
@@ -58,6 +59,9 @@ function App() {
     </Route>
     <Route path='/forget'>
       <ForgetPassword />
+    </Route>
+    <Route path='/report'>
+     <Report />
     </Route>
    
    </Switch>
