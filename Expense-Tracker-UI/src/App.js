@@ -59,6 +59,7 @@ function App() {
     <Route path='/forget'>
       <ForgetPassword />
     </Route>
+   
    </Switch>
   );
 }
