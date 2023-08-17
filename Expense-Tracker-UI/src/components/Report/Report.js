@@ -2,97 +2,32 @@ import classes from './Report.module.css';
 import Header from '../Layout/Header';
 import { Container, Table, Button } from 'react-bootstrap';
 import { Fragment } from 'react';
+import axios from 'axios';
 const Report = () => {
+    const token = localStorage.getItem('token');
+    const downloadReport = async() => {
+        try {
+            const response = await axios.get('http://localhost:4000/user/download', { headers: {"Authorization" : token } })
+            console.log(response)
+            if(response.status === 200) {
+                var a = document.createElement('a');
+                a.href = response.data.fileURL;
+                a.download = 'myexpense.csv';
+                a.click();
+            } else {
+                throw new Error(response.data.message)
+            }
+        } catch(err) {
+            console.log(err)
+        }
+    }
     return (
         <Fragment>
         <Header />
         <Container className={classes.report} >
         <h2>Day to Day Expenses</h2>
-        <Button>Download Report</Button>
-        <Table className={classes.table} responsive="sm" bordered>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-        </tbody>
-      </Table>
-      <Table responsive="sm" className={classes.table} bordered>
-        <thead>
-          <tr>
-            <th>#</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-            <th>Table heading</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>1</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <td>2</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-          <tr>
-            <td>3</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-            <td>Table cell</td>
-          </tr>
-        </tbody>
-      </Table>
+        <Button onClick={downloadReport}>Download Report</Button>
+        
       </Container>
         </Fragment>
     )
