@@ -15,6 +15,11 @@ const Login = () => {
     const switchAuthModeHandler = () => {
         history.push('/signup')
     };
+
+    const forgetPassword = () => {
+      history.push('/forget')
+    }
+
     const signInHandler = async(e) => {
         e.preventDefault();
         const enteredEmail = emailInputRef.current.value;
@@ -51,6 +56,9 @@ const Login = () => {
     <Form.Label>Password</Form.Label>
     <input ref={passwordInputRef} type="password" placeholder="Password" required/>
   </Form.Group>
+  <div className={classes.forget}>
+            <Button onClick={forgetPassword}>Forget Password?</Button>
+          </div>
     <ButtonGroup  className={classes.actions} vertical>
     {isLoading && <Button  className={classes.toggle} type="button">
       Sending Request

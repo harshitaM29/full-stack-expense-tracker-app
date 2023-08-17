@@ -1,7 +1,7 @@
 import { expenseActions } from './expenses';
 import axios from 'axios';
 
-const token = localStorage.getItem('token')
+
 export const fetchExpenseData = (tokenId) => {
     return async(dispatch) => {
        
@@ -34,7 +34,7 @@ export const sendExpenseItems = (expense, tokenId) => {
     }
 }
 
-export const deleteExpenseItems = (id) => {
+export const deleteExpenseItems = (id,token) => {
     return async(dispatch) => {
         const deleteData = async() => {
             const response = await axios.delete(`http://localhost:4000/expense-delete/${id}`, { headers: {"Authorization" : token }});
