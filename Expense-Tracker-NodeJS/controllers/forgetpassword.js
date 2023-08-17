@@ -1,8 +1,10 @@
 const Sib = require('sib-api-v3-sdk');
 const User = require('../models/users');
 const ForgetPassword = require('../models/forgetpassword');
+const bcrypt = require('bcrypt');
 require('dotenv').config();
 const {v4 : uuidv4} = require('uuid');
+
 
 exports.forgetPassword = async(req,res,next) => {
 const emailId = req.body.email;
@@ -53,12 +55,44 @@ res.status(200).json({message:'Mail Sent Successfully'})
 
 exports.resetPassword = async(req,res,next) => {
     const id = req.params.id;
-    const isActive = await ForgetPassword.findOne({
-        attributes: ['isActive'],
+    const requests = await ForgetPassword.findOne({
+        
         where: {
             id:id
         }
     });
-    console.log(isActive);
-    res.status(200).json(isActive);
+    if(requests) {
+        await requests.update({ isActive: false})
+    }
+    res.status(200).send(`<html>
+        <form action="/password/updatepassword/${id}" method="get">
+            <label for="newpassword">Enter New password</label>
+            <input name="newpassword" type="password" required></input>
+            <button>reset password</button>
+        </form>
+    </html>`);
+    res.end();
+};
+
+exports.updatePassword = async(req,res,next) => {
+    const newpassword = req.query.newpassword;
+    const id = req.params.id;
+    try {
+    const user = await ForgetPassword.findOne({
+        attributes:['userId'],
+        where: {
+            id:id
+        }
+    })
+    const userInfo = await User.findOne({ where: {id:user.userId}});
+    if(userInfo) {
+        const salt = await bcrypt.genSalt(10);
+        await userInfo.update({ password: await bcrypt.hash(newpassword, salt)})
+        res.status(201).json({message: 'Successfuly update the new password'})
+    } else {
+        return res.status(404).json({ error: 'No user Exists', success: false})
+    }
+}catch(err) {
+    console.log(err)
+}
 }
