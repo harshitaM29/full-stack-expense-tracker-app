@@ -6,13 +6,13 @@ export const fetchExpenseData = (tokenId,page) => {
     return async(dispatch) => {
        
         try {
-            const response = await axios.get(`http://localhost:4000/expenses?page=${page}`, { headers: {"Authorization" : tokenId } });
+            const response = await axios.get(`http://localhost:4000/expenses?page=${page}&limit=${2}`, { headers: {"Authorization" : tokenId } });
            
             dispatch(expenseActions.replaceExpense({
                 expense: response.data || [],
               
              }))
-             dispatch(pageActions.pageInfo(response.data))
+           
             
         }
     catch(error) {
