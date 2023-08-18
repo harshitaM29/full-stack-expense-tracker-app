@@ -13,6 +13,9 @@ const authSlice = createSlice({
             state.isLoggedIn = true
             state.isPremium = action.payload.isPremium
         },
+        logout(state, action) {
+            localStorage.clear();
+        }
     }
 });
 

@@ -2,11 +2,11 @@ import { expenseActions } from './expenses';
 import axios from 'axios';
 import { pageActions } from './page';
 
-export const fetchExpenseData = (tokenId,page) => {
+export const fetchExpenseData = (tokenId,page,limit) => {
     return async(dispatch) => {
        
         try {
-            const response = await axios.get(`http://localhost:4000/expenses?page=${page}&limit=${2}`, { headers: {"Authorization" : tokenId } });
+            const response = await axios.get(`http://localhost:4000/expenses?page=${page}&limit=${limit}`, { headers: {"Authorization" : tokenId } });
            
             dispatch(expenseActions.replaceExpense({
                 expense: response.data || [],

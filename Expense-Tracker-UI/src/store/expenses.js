@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 
-const initialExpenseState = {expense: [], totalAmount: 0, changed:false}
+const initialExpenseState = {expense: [], totalAmount: 0, changed:false, pageCount:0}
 
 const expenseSlice = createSlice({
     name: 'expenses',
@@ -9,6 +9,7 @@ const expenseSlice = createSlice({
     reducers: {
         replaceExpense(state,action) {
             state.expense = action.payload.expense.result;
+            state.pageCount = action.payload.expense.pageCount;
           
         },
         addExpenses(state,action) {

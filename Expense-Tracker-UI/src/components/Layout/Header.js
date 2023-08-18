@@ -1,11 +1,12 @@
 import classes from './Header.module.css';
 import { Container, Button, Nav, Navbar} from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { createOrder } from '../../store/order-actions';
 import useRazorpay from "react-razorpay";
 import { useHistory } from 'react-router-dom';
 import { NavLink } from 'react-router-dom';
 import { fetchPremiumLeaderboardData } from '../../store/premium-actions';
+import { authActions } from '../../store/auth';
 const Header = () => {
     const isPremium = localStorage.getItem('isPremium');
 
@@ -27,7 +28,11 @@ const Header = () => {
      
   }
    
-    
+    const handleLogout = (e) => {
+      e.preventDefault();
+      dispatch(authActions.logout());
+      history.replace('/')
+    }
     return (
         <Navbar bg="dark" data-bs-theme="dark" expand="lg" className={classes.nav}>
         <Container fluid>
@@ -44,7 +49,9 @@ const Header = () => {
               {isPremium === 'true' ? <Navbar.Text><NavLink to='/report' style={{ textDecoration: 'none',  marginLeft:'0.5rem' }}>Report</NavLink></Navbar.Text>
               : '' }
             </Nav>
+           
               {isPremium === 'true' ? <Button  onClick={showLeaderboard}>Leaderboard</Button> : ''}
+              <Button onClick={handleLogout} style={{ marginLeft:'0.5rem' }}>Logout</Button>
              {isPremium === 'true' ? 
             
              <Navbar.Text style={{ marginLeft:'0.5rem' }}>You're Premium User</Navbar.Text> 
