@@ -93,6 +93,6 @@ exports.updatePassword = async(req,res,next) => {
         return res.status(404).json({ error: 'No user Exists', success: false})
     }
 }catch(err) {
-    console.log(err)
+   throw new Error(err);
 }
 }

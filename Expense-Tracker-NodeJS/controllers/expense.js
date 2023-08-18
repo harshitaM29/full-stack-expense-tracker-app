@@ -5,7 +5,6 @@ const ITEMS_PER_PAGE = 2;
 exports.getExpenseData = async(req,res,next) => {
     const page = +req.query.page || 1;
     const limit = +req.query.limit
-   console.log(page,limit)
     const expenses = await Expenses.findAll({ where: {userId: req.user.id} });
     let startIndex = (page - 1) * limit;
     let lastIndex = (page) * limit;

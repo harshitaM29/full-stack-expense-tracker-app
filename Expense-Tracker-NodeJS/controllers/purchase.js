@@ -22,7 +22,6 @@ exports.purchaseMembership = async(req,res) => {
         };
 
        const response = await rzp.orders.create(options)
-            console.log(response)
           const order = await req.user.createOrder({ orderId: response.id, status: 'PENDING'}, {transaction:t})
           await t.commit();
          res.status(201).json({ response, key_id: rzp.key_id });
