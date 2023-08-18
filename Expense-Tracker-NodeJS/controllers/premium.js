@@ -1,4 +1,4 @@
-const Expense = require('../models/expense');
+
 const User = require('../models/users');
 const sequelize = require('sequelize');
 exports.getLeaderBoardData = async(req,res,next) => {

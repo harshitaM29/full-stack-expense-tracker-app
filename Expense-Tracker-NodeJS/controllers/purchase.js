@@ -17,7 +17,7 @@ exports.purchaseMembership = async(req,res) => {
         const amount = 25;
         const currency = 'INR'
         const options = {
-            amount: amount * 10,
+            amount: amount * 100,
             currency
         };
 

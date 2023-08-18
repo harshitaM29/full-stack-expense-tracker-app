@@ -1,6 +1,8 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors =  require('cors');
+const fs = require('fs');
+const path = require('path');
 const sequelize = require('./utils/database');
 const userRoutes = require('./routes/user');
 const expenseRouter = require('./routes/expense');
@@ -12,16 +14,25 @@ const Expense = require('./models/expense');
 const Order = require('./models/orders');
 const ForgetPassword = require('./models/forgetpassword');
 const FilesDownloaded = require('./models/filesdownloaded');
+const helmet = require('helmet');
+const morgan = require('morgan');
+
 const app = express();
 
 app.use(cors());
-
+const accessLogs = fs.createWriteStream(path.join(__dirname,'access.log'),
+{flags: 'a'}
+);
+app.use(helmet());
+app.use(morgan('combined', {stream: accessLogs}));
 app.use(bodyParser.json({ extended: false }));
 app.use('/user',userRoutes);
 app.use(expenseRouter);
 app.use('/purchase', purchaseRouter);
 app.use('/premium',premiumRouter);
 app.use('/password',passwordRouter);
+
+
 
 User.hasMany(Expense);
 Expense.belongsTo(User);
