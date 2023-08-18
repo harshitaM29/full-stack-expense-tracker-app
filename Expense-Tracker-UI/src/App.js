@@ -13,14 +13,14 @@ import Report from './components/Report/Report';
 function App() {
   const dispatch = useDispatch();
   const isLoggedIn = useSelector(state => state.auth.isLoggedIn)
-  const isChanged = useSelector(state => state.expense.isChanged);
-  console.log(isLoggedIn);
+ 
+
   useEffect(() => {
     const token = localStorage.getItem('token');
-
+    const page = 1;
    if(isLoggedIn) {
     setTimeout(() => {
-      dispatch(fetchExpenseData(token));
+      dispatch(fetchExpenseData(token,page));
     },1000)
     
    }

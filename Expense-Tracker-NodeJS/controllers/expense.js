@@ -1,11 +1,20 @@
 const Expenses = require('../models/expense');
 const User = require('../models/users');
 const sequelize = require('../utils/database');
+const ITEMS_PER_PAGE = 2;
 exports.getExpenseData = async(req,res,next) => {
-
-    const expenses = await Expenses.findAll({ where: {userId: req.user.id}});
+    const page = +req.query.page || 1;
+    let totalItems;
+    const expenses = await Expenses.findAll({ where: {userId: req.user.id}, offset:(page - 1) * ITEMS_PER_PAGE, limit:ITEMS_PER_PAGE});
    
-    res.status(200).json(expenses);
+    res.status(200).json({expenses:expenses,
+        currentPage:page,
+        hasNextPage: ITEMS_PER_PAGE * page < totalItems,
+        nextPage:page + 1,
+        hasPreviousPage: page > 1,
+        previousPage: page - 1,
+        lastPage: Math.ceil(totalItems / ITEMS_PER_PAGE)
+    });
 };
 
 exports.postExpenseData = async(req,res,next) => {

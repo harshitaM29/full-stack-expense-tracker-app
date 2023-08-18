@@ -9,7 +9,7 @@ const FilesDownloaded = sequelize.define('filesdownloaded' , {
         autoIncrement:true,
         primaryKey: true
     },
-    fileurl: {
+    fileURL: {
         type:Sequelize.STRING,
         allowNull: false,
     },

@@ -46,11 +46,12 @@ exports.downloadReport = async(req,res,next) => {
     const filename = `Expense${userId}/${new Date()}.txt`;
     const fileURL = await uploadToS3(stringifiedExpenses,filename);
     const filesDownloadedData = await FilesDownloaded.create({
-        fileurl:fileURL,
+        fileURL:fileURL,
         userId:userId,
         filename:filename
     })
     res.status(200).json({ fileURL, succues:true})
+    
     }catch(err) {
         res.status(500).json({ fileURL:'', success:false, err:err})
     }
@@ -59,7 +60,7 @@ exports.downloadReport = async(req,res,next) => {
 exports.getFileDownloadedData = async(req,res,next) => {
     const id = req.user.id;
     try {
-            const data = await FilesDownloaded.findAll({ where: {userId : id}});
+            const data = await FilesDownloaded.findAll({ attributes:['fileURL'], where: {userId : id}});
             res.status(200).json(data);
 
     }catch(err){

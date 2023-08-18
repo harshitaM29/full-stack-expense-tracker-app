@@ -1,16 +1,30 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const initialPremiumState = {premiumItems: []};
+const initialPremiumState = {premiumItems: [], downloadedData:[]};
 
 const premiumSlice =  createSlice({
     name:'premium',
     initialState:initialPremiumState,
     reducers: {
         replaceItems(state,action) {
-           console.log(action.payload.items)
+           
             state.premiumItems = action.payload.items;
           
         },
+        replaceDownloadedItems(state,action) {
+           
+             state.downloadedData = action.payload.downloadedData;
+           
+         },
+         addDownloadedItems(state,action) {
+           
+            state.downloadedData.push({
+                id:Math.random(),
+                ...action.payload
+               })
+          
+        },
+         
         
     }
 

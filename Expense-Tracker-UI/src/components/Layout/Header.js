@@ -8,9 +8,9 @@ import { NavLink } from 'react-router-dom';
 import { fetchPremiumLeaderboardData } from '../../store/premium-actions';
 const Header = () => {
     const isPremium = localStorage.getItem('isPremium');
-    const items = useSelector(state => state.premium.items);
 
-    console.log(items)
+
+    
     const history = useHistory();
     const token = localStorage.getItem('token')
     const [Razorpay] = useRazorpay();
